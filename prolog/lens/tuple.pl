@@ -7,36 +7,36 @@
   *
   **/
 
-:- module(tuple,
-	[ first/3,
-	  second/3,
-	  at/4
+:- module(lens_tuple,
+	[ fst_/3,
+	  snd_/3,
+	  at_/4
 	]).
 
 :- use_module(lens, [lens_map/3]).
 
-%!  first(+Functor, +Tuple, -Result)
+%!  fst_(+Functor, +Tuple, -Result)
 %
 %   Gives access to the first field of a tuple.
-first(F, (A,X), Fbx) :-
+fst_(F, (A,X), Fbx) :-
 	call(F, A, Fb),
-    lens_map(tuple:set_nth_tuple(0, (A,X)), Fb, Fbx).
+    lens_map(lens_tuple:set_nth_tuple(0, (A,X)), Fb, Fbx).
 
-%!  second(+Functor, +Tuple, -Result)
+%!  snd_(+Functor, +Tuple, -Result)
 %
 %   Gives access to the second field of a tuple.
-second(F, (X,A), Fbx) :-
+snd_(F, (X,A), Fbx) :-
 	call(F, A, Fb),
-    lens_map(tuple:mk_tuple(X), Fb, Fbx).
+    lens_map(lens_tuple:mk_tuple(X), Fb, Fbx).
 
-%!  at(+N, +Functor, +Tuple, -Result)
+%!  at_(+N, +Functor, +Tuple, -Result)
 %
 %   Gives access to the nth field of a tuple.
-at(N, F, T, Fbx) :-
+at_(N, F, T, Fbx) :-
 	N >= 0,
 	get_nth_tuple(N, T, A),
 	call(F, A, Fb),
-    lens_map(tuple:set_nth_tuple(N, T), Fb, Fbx).
+    lens_map(lens_tuple:set_nth_tuple(N, T), Fb, Fbx).
 
 %!  mk_tuple(+A, +B, -AB)
 %
