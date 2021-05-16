@@ -8,11 +8,27 @@
   **/
 
 :- module(lens_list,
-	[ nth0_/4,
+	[ head_/3,
+	  tail_/3,
+	  nth0_/4,
 	  nth1_/4
 	]).
 
 :- use_module(lens, [lens_map/3]).
+
+%!  head_(+Functor, +List, -Result)
+%
+%   Gives access to the head of a list.
+head_(F, [A|Xs], Fbx) :-
+	call(F, A, Fb),
+	lens_map(lens_list:set_nth0_list(0, [A|Xs]), Fb, Fbx).
+
+%!  tail_(+Functor, +List, -Result)
+%
+%   Gives access to the tail of a list.
+tail_(F, [X|A], Fbx) :-
+	call(F, A, Fb),
+	lens_map(lens_list:mk_list(X), Fb, Fbx).
 
 %!  nth0_(+N, +Functor, +List, -Result)
 %
@@ -30,6 +46,11 @@ nth1_(N, F, Xs, Fbx) :-
 	call(F, A, Fb),
 	succ(M, N),
 	lens_map(lens_list:set_nth0_list(M, Xs), Fb, Fbx).
+
+%!  mk_list(+X, +Xs, -XXs)
+%
+%   Makes a list from two head and tail.
+mk_list(X, Xs, [X|Xs]).
 
 %!  set_nth0_list
 set_nth0_list(0, [_|Xs], X, [X|Xs]).
