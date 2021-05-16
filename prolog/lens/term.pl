@@ -20,7 +20,7 @@
 functor_(F, T, Fbx) :-
 	functor(T, A, _),
 	call(F, A, Fb),
-    lens_map(lens_term:set_functor(T), Fb, Fbx).
+	lens_map(lens_term:set_functor_term(T), Fb, Fbx).
 
 %!  args_(+Functor, +Term, -Result)
 %
@@ -28,14 +28,14 @@ functor_(F, T, Fbx) :-
 args_(F, T, Fbx) :-
 	T =.. [_|A],
 	call(F, A, Fb),
-    lens_map(lens_term:set_arguments(T), Fb, Fbx).
+	lens_map(lens_term:set_args_term(T), Fb, Fbx).
 
-%!  set_functor
-set_functor(T, F, Tf) :-
+%!  set_functor_term
+set_functor_term(T, F, Tf) :-
 	T =.. [_|Args],
 	Tf =.. [F|Args].
 
-%!  set_arguments
-set_arguments(T, Args, Targs) :-
+%!  set_args_term
+set_args_term(T, Args, Targs) :-
 	T =.. [F|_],
 	Targs =.. [F|Args].
